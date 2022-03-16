@@ -9,3 +9,7 @@ like list | block fuc |　delete fuc | detail   score : 3
 block list | like fuc | delete fuc | detail  score : 3  
 debug score : 3  
 css style : 3  
+DAY 2 
+movie list page   
+like list page   
+block list page  
