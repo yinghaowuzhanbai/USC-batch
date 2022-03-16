@@ -10,14 +10,23 @@ export default function MovieList() {
         `https://api.themoviedb.org/3/movie/popular?api_key=f4fd559b706454d3e7876ad1c9d54257&page=${page}`
       );
       const json = await res.json();
-      console.log(json.results);
-      setData(json.results);
+
+      const mapped = json.results.map((item) => {
+        item.page = page;
+        return item;
+      });
+      setData([...data, ...mapped]);
     };
-    fetchData();
+    const isExist = data.some((item) => item.page == page);
+    console.log(isExist);
+    !isExist && fetchData();
   }, [page]);
+
   function displayPage() {
+    console.log(data.filter((item) => item.page === page));
     return `${page} page`;
   }
+
   function pageRender(e) {
     if (e.target.id == 1) {
       setPage(page + 1);
@@ -27,6 +36,7 @@ export default function MovieList() {
       }
     }
   }
+
   return (
     <div>
       <div className="pageSwitch">
@@ -39,11 +49,15 @@ export default function MovieList() {
         </button>
       </div>
       <ul>
-        {data.map((element) => (
-          <li key={element.id}>
-            <a>{element.original_title}</a>
-          </li>
-        ))}
+        {data
+          .filter((item) => item.page === page)
+          .map((element) => {
+            return (
+              <li key={element.id}>
+                <a>{element.original_title}</a>
+              </li>
+            );
+          })}
       </ul>
     </div>
   );
