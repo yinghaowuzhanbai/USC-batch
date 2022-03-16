@@ -31,7 +31,10 @@ export default function MovieList() {
     }
   }
   function addLikeList(){
-    store.disPatch('')
+    console.log("add")
+  }
+  function blockList(){
+    console.log("block")
   }
   return (
     <div className="movie_layout">
@@ -46,7 +49,7 @@ export default function MovieList() {
         <span>{displayPage()}</span>
         <button onClick={pageRender} id='1' disabled={loading? true:false}>right</button>
       </div>
-      <div>{loading? <LoadingSpinner/>:<ResultSpinner data={data}/>}</div>
+      <div>{loading? <LoadingSpinner/>:<ResultSpinner data={data} addLikeList={addLikeList} blockList={blockList}/>}</div>
 
     </div>
   );
@@ -56,24 +59,24 @@ function LoadingSpinner(){
   return <div>loading</div>
 }
 
-function ResultSpinner({data}){
+function ResultSpinner({data, addLikeList, blockList}){
   return (<div className="movie_container">
   {data.map(element =>
     (
-       <MovieListContainer element={element}/>
+       <MovieListContainer element={element} addLikeList={addLikeList} blockList={blockList}/>
     ))}
   </div>)
 }
 
-function MovieListContainer({element}){
+function MovieListContainer({element, addLikeList, blockList}){
     const stringPath = `https://image.tmdb.org/t/p/w500${element.poster_path}`
     return (
         <div className="movie_element">
           <div><img className="movie_element_pic" src={stringPath} alt=""/></div>
           <span>{element.original_title}</span>
           <div>
-            <button onClick={}></button>
-            <button onClick={}></button>
+            <button onClick={addLikeList}></button>
+            <button onClick={blockList}></button>
           </div>
           <span>{element.release_date}</span>
           <span>
