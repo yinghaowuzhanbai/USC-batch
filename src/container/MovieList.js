@@ -1,5 +1,47 @@
 import React from "react";
 
 export default function MovieList() {
-  return <h1>Movie list</h1>;
+  const [data, setData] = useState([])
+  const [page, setPage] = useState(1)
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/movie/popular?api_key=f4fd559b706454d3e7876ad1c9d54257&page=${page}`
+      );
+      const json = await res.json();
+      setData(json.results);
+    }
+    fetchData();
+  })
+  function displayPage(){
+    return `${page} page`;
+  }
+  function pageRender(e){
+    if (e.target.id == 1){
+      setPage(page+1);
+    } else{
+      if (page>1){
+        setPage(page-1);
+      }
+    }
+  }
+  return (
+    <div>
+      <div className="pageSwitch">
+        <button onClick={pageRender} id='0'>left</button>
+        <span>{displayPage()}</span>
+        <button onClick={pageRender} id='1'>right</button>
+      </div>
+      <ul>
+        {data.map(element =>
+          (
+           <li>
+             <a>{element.original_title}</a>
+           </li> 
+          ))}
+      </ul>
+    </div>
+
+  );
 }
