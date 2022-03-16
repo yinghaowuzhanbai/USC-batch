@@ -1,5 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  return <h1>Navbar</h1>;
+  return (
+    <nav>
+      <Link to="/">Home</Link>
+      <Link to="/movie">Movie list</Link>
+      <Link to="/liked">Liked List</Link>
+      <Link to="/blocked">Blocked List</Link>
+    </nav>
+  );
 }
