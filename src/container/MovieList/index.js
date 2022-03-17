@@ -1,7 +1,6 @@
 import React from "react";
 import './style.css'
 import {useState, useEffect} from "react";
-import {createStore, dispatch} from 'redux';
 import store from '../../utils/actionCreator.js'
 
 console.log(store.getState());
@@ -23,8 +22,8 @@ export default function MovieList() {
     return `${page} page`;
   }
   function pageRender(e){
-    if (e.target.id == 1){
-      setPage(page+1);
+    if (e.target.id === '1'){
+      setPage(page + 1);
     } else{
       if (page>1){
         setPage(page-1);
@@ -34,7 +33,7 @@ export default function MovieList() {
   }
   function addLikeList(event){
     console.log(event.target)
-    const add_item = data.find(element => element.id == event.target.id)
+    const add_item = data.find(element => String(element.id) === String(event.target.id))
     console.log(add_item)
     store.dispatch(
       {
@@ -45,7 +44,7 @@ export default function MovieList() {
   }
   function blockList(event){
     console.log(event.target)
-    const add_item = data.find(element => element.id == event.target.id)
+    const add_item = data.find(element => String(element.id) === String(event.target.id))
     console.log(add_item)
     store.dispatch(
       {
@@ -67,7 +66,7 @@ export default function MovieList() {
         <span>{displayPage()}</span>
         <button onClick={pageRender} id='1' disabled={loading? true:false}>right</button>
       </div>
-      <div>{loading? <LoadingSpinner/>:<ResultSpinner data={data} addLikeList={addLikeList} blockList={blockList}/>}</div>
+      <div>{loading? <LoadingSpinner/>:<ResultSpinner data={data} addLikeList={addLikeList} blockList={blockList} store={store}/>}</div>
 
     </div>
   );
@@ -77,16 +76,16 @@ function LoadingSpinner(){
   return <div>loading</div>
 }
 
-function ResultSpinner({data, addLikeList, blockList}){
+function ResultSpinner({data, addLikeList, blockList, store}){
   return (<div className="movie_container">
   {data.map(element =>
     (
-       <MovieListContainer element={element} addLikeList={addLikeList} blockList={blockList}/>
+       <MovieListContainer element={element} addLikeList={addLikeList} blockList={blockList} store={store}/>
     ))}
   </div>)
 }
 
-function MovieListContainer({element, addLikeList, blockList}){
+function MovieListContainer({element, addLikeList, blockList, store}){
     const stringPath = `https://image.tmdb.org/t/p/w500${element.poster_path}`
     // const check = store.find(item => item.id == element).isBlocked;
     return (
