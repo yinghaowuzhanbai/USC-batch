@@ -13,10 +13,20 @@ export default function MovieList() {
       fetch(
         `https://api.themoviedb.org/3/movie/popular?api_key=f4fd559b706454d3e7876ad1c9d54257&page=${page}`
       ).then(res => res.json())
-      .then(data => {
-        setData(data.results)
-        setLoading(false)})
+      .then(result => {
+        setData(result.results)
+        setLoading(false)
+      })
       .catch(error => console.log("error"));
+      data.map(
+        element => {
+          store.dispatch({
+            type:'ADD_LIST',
+            text: element,
+            source: 0,
+            page:page})
+        }
+      )
   })
   function displayPage(){
     return `${page} page`;
@@ -38,7 +48,9 @@ export default function MovieList() {
     store.dispatch(
       {
         type:'IS_LIKE',
-        text: add_item}
+        text: add_item,
+        source: 0,
+        page:page}
     )
     console.log(store.getState())
   }
@@ -49,7 +61,9 @@ export default function MovieList() {
     store.dispatch(
       {
         type:'IS_BLOCK',
-        text: add_item}
+        text: add_item,
+        source: 0,
+        page:page}
     )
     console.log(store.getState())
   }
@@ -87,9 +101,11 @@ function ResultSpinner({data, addLikeList, blockList, store}){
 
 function MovieListContainer({element, addLikeList, blockList, store}){
     const stringPath = `https://image.tmdb.org/t/p/w500${element.poster_path}`
-    // const check = store.find(item => item.id == element).isBlocked;
+    const check = store.getState().find(item => item.id === element.id);
+    const check_block = check.isBlocked;
     return (
       <div>
+        { check_block &&
         <div className="movie_element">
           <div><img className="movie_element_pic" src={stringPath} alt=""/></div>
           <span>{element.original_title}</span>
@@ -101,6 +117,6 @@ function MovieListContainer({element, addLikeList, blockList, store}){
           <span>
             {element.overview}
           </span>
-        </div></div>
+        </div> }</div>
   ) 
 }
