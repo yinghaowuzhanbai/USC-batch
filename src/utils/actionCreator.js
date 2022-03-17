@@ -8,7 +8,10 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action = {}) => {
-  console.log({ state, action });
+  if (action.type === "fetch") {
+    return { ...state, movies: [...action.payload] };
+  }
+
   return state;
 };
 

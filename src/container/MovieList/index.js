@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import store from "../../utils/actionCreator";
 
 export default function MovieList() {
-  const [data, setData] = useState([]);
+  const { movies } = store.getState();
+  const [data, setData] = useState(movies);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -13,17 +15,19 @@ export default function MovieList() {
 
       const mapped = json.results.map((item) => {
         item.page = page;
+        item.isBlocked = false;
         return item;
       });
+      console.log([...data, ...mapped]);
       setData([...data, ...mapped]);
     };
-    const isExist = data.some((item) => item.page == page);
-    console.log(isExist);
+    const isExist = movies.some((item) => item.page == page);
     !isExist && fetchData();
   }, [page]);
 
+  store.dispatch({ type: "fetch", payload: data });
+
   function displayPage() {
-    console.log(data.filter((item) => item.page === page));
     return `${page} page`;
   }
 
@@ -49,7 +53,7 @@ export default function MovieList() {
         </button>
       </div>
       <ul>
-        {data
+        {movies
           .filter((item) => item.page === page)
           .map((element) => {
             return (
