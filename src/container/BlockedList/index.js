@@ -8,7 +8,7 @@ export default function BlockedList() {
   return (
     <div className="blocked-grid">
       {movies.map(({ movie, isBlocked }) => {
-        return isBlocked && <BlockList movie={movie} />;
+        return <BlockList movie={movie} isBlocked={isBlocked} />;
       })}
     </div>
   );
