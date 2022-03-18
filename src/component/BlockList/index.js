@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import store from "../../utils/actionCreator";
+import "./index.css";
 
 export default function BlockList({ movie, isBlocked }) {
   const data = store.getState();
