@@ -1,6 +1,7 @@
 import React from "react";
 import './style.css'
 import {useState, useEffect} from "react";
+import {provider} from "react-redux"
 import store from '../../utils/actionCreator.js'
 
 console.log(store.getState());
@@ -9,6 +10,7 @@ export default function MovieList() {
   const [data, setData] = useState([])
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(true)
+
   useEffect(() => {
       fetch(
         `https://api.themoviedb.org/3/movie/popular?api_key=f4fd559b706454d3e7876ad1c9d54257&page=${page}`
@@ -64,7 +66,7 @@ export default function MovieList() {
         text: add_item,
         source: 0,
         page:page}
-    )
+      )
     console.log(store.getState())
   }
   return (
@@ -81,7 +83,6 @@ export default function MovieList() {
         <button onClick={pageRender} id='1' disabled={loading? true:false}>right</button>
       </div>
       <div>{loading? <LoadingSpinner/>:<ResultSpinner data={data} addLikeList={addLikeList} blockList={blockList} store={store}/>}</div>
-
     </div>
   );
 }
@@ -91,32 +92,32 @@ function LoadingSpinner(){
 }
 
 function ResultSpinner({data, addLikeList, blockList, store}){
+  const newData = data.filter(element => {
+      const check = store.getState().find(item => item.id === element.id);
+      return !check.isBlocked;
+    }
+  )
+  console.log(newData);
   return (<div className="movie_container">
-  {data.map(element =>
-    (
-       <MovieListContainer element={element} addLikeList={addLikeList} blockList={blockList} store={store}/>
-    ))}
+  {newData.map(element =>
+      (<MovieListContainer element={element} addLikeList={addLikeList} blockList={blockList}/>))}
   </div>)
 }
 
-function MovieListContainer({element, addLikeList, blockList, store}){
-    const stringPath = `https://image.tmdb.org/t/p/w500${element.poster_path}`
-    const check = store.getState().find(item => item.id === element.id);
-    const check_block = check.isBlocked;
+function MovieListContainer({element, addLikeList, blockList}){
+  const stringPath = `https://image.tmdb.org/t/p/w500${element.poster_path}`
     return (
-      <div>
-        { check_block &&
-        <div className="movie_element">
-          <div><img className="movie_element_pic" src={stringPath} alt=""/></div>
-          <span>{element.original_title}</span>
-          <div>
-            <button onClick={addLikeList} id={element.id}>LIKE</button>
-            <button onClick={blockList} id={element.id}>BLOCK</button>
+          <div className="movie_element">
+            <div><img className="movie_element_pic" src={stringPath} alt=""/></div>
+            <span>{element.original_title}</span>
+            <div>
+              <button onClick={addLikeList} id={element.id}>LIKE</button>
+              <button onClick={blockList} id={element.id}>BLOCK</button>
+            </div>
+            <span>{element.release_date}</span>
+            <span>
+              {element.overview}
+            </span>
           </div>
-          <span>{element.release_date}</span>
-          <span>
-            {element.overview}
-          </span>
-        </div> }</div>
-  ) 
+    )
 }

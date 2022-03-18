@@ -31,7 +31,8 @@ const reducer = (state = [], action) => {
         return state;
     case 'IS_BLOCK':
       const blockIndex = state.findIndex(element => element.id === action.text.id);
-      return {...state, blockIndex:{isBlocked:true}};
+      state[blockIndex].isBlocked = true;
+      return state;
     default:
       return state;
   }
