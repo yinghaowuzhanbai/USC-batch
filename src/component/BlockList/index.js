@@ -23,14 +23,6 @@ export default function BlockList({ movie, isBlocked }) {
       });
       setIsShow(!isShow);
     }
-
-    if (event.target.name === "delete") {
-      store.dispatch({
-        type: "DELETE",
-        text: movieFound,
-      });
-      setIsShow(!isShow);
-    }
   };
 
   return (
@@ -45,9 +37,8 @@ export default function BlockList({ movie, isBlocked }) {
           alt={movie.original_title}
         />
         <br />
-        <button name="delete">Delete</button>
+        <button name="unblock">Delete</button>
         <button name="like">Like</button>
-        <button name="unblock">Unblock</button>
         <p>{movie.original_title}</p>
       </div>
     )
