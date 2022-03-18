@@ -94,6 +94,9 @@ function LoadingSpinner(){
 function ResultSpinner({data, addLikeList, blockList, store}){
   const newData = data.filter(element => {
       const check = store.getState().find(item => item.id === element.id);
+      if (check === undefined){
+        return true;
+      }
       return !check.isBlocked;
     }
   )
