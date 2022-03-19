@@ -6,10 +6,13 @@ import "./index.css";
 export default function BlockedList() {
   const movies = store.getState();
   return (
-    <div className="blocked-grid">
-      {movies.map(({ movie, isBlocked }) => {
-        return <BlockList movie={movie} isBlocked={isBlocked} />;
-      })}
-    </div>
+    <>
+      <h1>Movie List of Blocked</h1>
+      <div className="blocked-grid">
+        {movies.map(({ movie, isBlocked }) => {
+          return <BlockList movie={movie} isBlocked={isBlocked} />;
+        })}
+      </div>
+    </>
   );
 }

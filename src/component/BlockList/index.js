@@ -46,14 +46,17 @@ export default function BlockList({ movie, isBlocked }) {
             setShowDetail={setShowDetail}
           />
         )}
-        <img
-          src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-          alt={movie.original_title}
-        />
-        <br />
-        <button name="unblock">Delete</button>
-        <button name="like">Like</button>
-        <button name="detail">Detail</button>
+        <div className="image-wrapper" id={movie.id}>
+          <img
+            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+            alt={movie.original_title}
+          />
+          <div className="buttons" id={movie.id}>
+            <button name="unblock">Delete</button>
+            <button name="like">Like</button>
+            <button name="detail">Detail</button>
+          </div>
+        </div>
       </div>
     )
   );
