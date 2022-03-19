@@ -1,4 +1,3 @@
-import { ADD_TO_LIKEDLIST, REMOVE_FROM_LIKEDLIST } from "./actions";
 import { createStore } from "redux";
 import { findAllByTestId } from "@testing-library/react";
 
@@ -45,13 +44,6 @@ const reducer = (state = [], action) => {
         (element) => element.id === action.text.id
       );
       state[unblockIndex].isBlocked = false;
-      return state;
-
-    case "DELETE":
-      const deleteIndex = state.findIndex(
-        (element) => element.id === action.text.id
-      );
-      state.filter((element) => element.id !== action.text.id);
       return state;
 
     default:

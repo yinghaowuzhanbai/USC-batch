@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import store from "../../utils/actionCreator";
+import Detail from "./Detail";
 import "./index.css";
 
 export default function BlockList({ movie, isBlocked }) {
   const data = store.getState();
   const [isShow, setIsShow] = useState(isBlocked);
+  const [showDetail, setShowDetail] = useState(false);
 
   const buttonsHandler = (event) => {
     const movieFound = data.find(
@@ -24,6 +26,10 @@ export default function BlockList({ movie, isBlocked }) {
       });
       setIsShow(!isShow);
     }
+
+    if (event.target.name === "detail") {
+      setShowDetail(true);
+    }
   };
 
   return (
@@ -33,6 +39,13 @@ export default function BlockList({ movie, isBlocked }) {
         id={movie.id}
         onClick={(e) => buttonsHandler(e)}
       >
+        {showDetail && (
+          <Detail
+            movie={movie}
+            showDetail={showDetail}
+            setShowDetail={setShowDetail}
+          />
+        )}
         <img
           src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
           alt={movie.original_title}
@@ -40,7 +53,7 @@ export default function BlockList({ movie, isBlocked }) {
         <br />
         <button name="unblock">Delete</button>
         <button name="like">Like</button>
-        <p>{movie.original_title}</p>
+        <button name="detail">Detail</button>
       </div>
     )
   );
