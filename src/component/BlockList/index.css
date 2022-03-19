@@ -11,6 +11,10 @@
   position: relative;
 }
 
+.image-wrapper img {
+  transition: 0.5s ease-in-out;
+}
+
 .buttons {
   position: absolute;
   bottom: 0;
