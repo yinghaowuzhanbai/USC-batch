@@ -1,15 +1,6 @@
 import { createStore } from "redux";
 import { findAllByTestId } from "@testing-library/react";
 
-// const initialState = {
-//   movie: '',
-//   id: '',
-//   source: '',
-//   page: '',
-//   isLiked: false,
-//   isBlocked: false,
-// };
-
 const reducer = (state = [], action) => {
   switch (action.type) {
     case "ADD_LIST":
