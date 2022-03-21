@@ -23,7 +23,7 @@ export default function MovieListContainer({element, addLikeList, blockList}){
     }
     return (
             <div className="movie_element">
-              <div><img className="movie_element_pic" src={stringPath} alt=""/></div>
+              {/* <div><img className="movie_element_pic" src={stringPath} alt=""/></div> */}
               <span>{element.content.original_title}</span>
               <div>
                 <button onClick={addLikeList} id={element.content.id}>{text}</button>

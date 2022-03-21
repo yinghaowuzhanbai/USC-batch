@@ -8,13 +8,16 @@ import Popular from "./popular";
 import Date from "./date";
  
 export default function MovieList() {
-  const [list, setList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [sort, setSort] = useState(0);
-  const [preSort, setPreSort] = useState(0);
+
+  
   function swtichSort(e){
-    setPreSort(sort);
-    setSort(e.target.id);
+    if (sort === e.target.id){
+      console.log("revese")
+    } else {
+      setSort(e.target.id);
+    }
   }
   return (
     <div className="movie_layout">

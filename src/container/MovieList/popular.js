@@ -38,10 +38,13 @@ export default function Popular({loading}) {
             page:page,
             content:element
           }])
-          store.dispatch({
-            type:'ADD_LIST',
-            text: element
-          })
+          const item = store.getState().find(i => i.id === element.id)
+          if (!item){
+            store.dispatch({
+              type:'ADD_LIST',
+              text: element
+            })
+          }
       })
       setFetchPage(fethPage+1);
       setCount(false);
