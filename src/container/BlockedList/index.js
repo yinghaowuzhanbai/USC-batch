@@ -1,7 +1,7 @@
 import React from "react";
 import BlockList from "../../component/BlockList";
 import store from "../../utils/actionCreator";
-import "./index.css";
+// import "./index.css";
 
 export default function BlockedList() {
   const movies = store.getState();
