@@ -11,9 +11,9 @@ export default function Layout() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="movie" element={<MovieList />} />
-        <Route path="liked" element={<LikedList />} />
-        <Route path="blocked" element={<BlockedList />} />
+        <Route path="/movie/*" element={<MovieList />} />
+        <Route path="/liked" element={<LikedList />} />
+        <Route path="/blocked" element={<BlockedList />} />
       </Routes>
     </>
   );
