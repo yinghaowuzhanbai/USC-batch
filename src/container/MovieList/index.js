@@ -9,44 +9,45 @@ import Date from "./date";
  
 export default function MovieList() {
   const [list, setList] = useState([]);
-  const [state, setState] = useState('');
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [sort, setSort] = useState(0);
+  const [preSort, setPreSort] = useState(0);
 
   useEffect(() => {
     const promise_array = [];
-    for (var i = 1; i < 501; i++)(
-      promise_array.push(fetch(
+    for (var i = 1; i < 5; i++)( //fetch all movie data
+      promise_array.push(
          'https://api.themoviedb.org/3/movie/popular?api_key=f4fd559b706454d3e7876ad1c9d54257&language=en-US&page='+i))
-    )
-    Promise.all(promise_array)
-    .then(
-      function(responses) {
-        // Get a JSON object from each of the responses
-          return Promise.all(responses.map(function (response) {
-            return response.json();
-          }));
-    })
-    .then(
-        function(data) {
-            for (var i = 0; i < data.length; i++){
-                if (data[i].results){
-                    console.log(data[i].results);
-                    data[i].results.forEach(
-                        element => setList(oldData => [...oldData, element])
-                    )
+    Promise.all(
+      promise_array.map(url =>
+        fetch(url)
+        .then(res => res.json())
+        .then(res => res.results)))
+    .then(result => {
+      result.map(
+        ele => {
+          ele.map(
+            item => {
+              {
+                if (!list.find(m => m.id === item.id)){
+                  setList(oldlist => [...oldlist, item])
                 }
+              }
             }
-            setLoading(false);
+          )
         }
-    )
-    .catch(error => console.log("error"));
-  })
+      )
+      setLoading(false)
+    })
+    .catch(error => console.log("fetch error"));
+  }, [loading])
+  
 
   function displayPage(){
-    return `${page} page`;
+    return `Page ${page}`;
   }
+
   function pageRender(e){
     if (e.target.id === '1'){
       setPage(page + 1);
@@ -55,37 +56,18 @@ export default function MovieList() {
         setPage(page-1);
       }
     }
-    console.log(store.getState())
   }
-  function addLikeList(event){
-    console.log(event.target)
-    const add_item = data.find(element => String(element.id) === String(event.target.id))
-    console.log(add_item)
-    store.dispatch(
-      {
-        type:'IS_LIKE',
-        text: add_item}
-    )
-    console.log(store.getState())
-  }
-  function blockList(event){
-    console.log(event.target)
-    const add_item = data.find(element => String(element.id) === String(event.target.id))
-    console.log(add_item)
-    store.dispatch(
-      {
-        type:'IS_BLOCK',
-        text: add_item}
-      )
-    console.log(store.getState())
+  function swtichSort(e){
+    setPreSort(sort);
+    setSort(e.target.id);
   }
   return (
     <div className="movie_layout">
       <nav className="listView">
-        <button disabled={loading? true:false}>Popular</button>
-        <button disabled={loading? true:false}>Title</button>
-        <button disabled={loading? true:false}>Rate</button>
-        <button disabled={loading? true:false}>Realse-Data</button>
+        <button id='0' disabled={loading? true:false} onClick={swtichSort}>Popular</button>
+        <button id='1' disabled={loading? true:false} onClick={swtichSort}>Title</button>
+        <button id='2' disabled={loading? true:false} onClick={swtichSort}>Rate</button>
+        <button id='3' disabled={loading? true:false} onClick={swtichSort}>Realse-Data</button>
       </nav>
       <div className="movie_layout">
         <div className="pageSwitch">
@@ -93,7 +75,7 @@ export default function MovieList() {
           <span>{displayPage()}</span>
           <button onClick={pageRender} id='1' disabled={loading? true:false}>right</button>
         </div>
-        <div>{loading? <LoadingSpinner/>:<ResultSpinner data={list} addLikeList={addLikeList} blockList={blockList} store={store}/>}</div>
+        <div>{loading? <LoadingSpinner/>:<ResultSpinner list={list} store={store} sort={sort} preSort={preSort} page={page}/>}</div>
       </div>
     </div>
   );
@@ -102,44 +84,17 @@ function LoadingSpinner(){
   return <div>loading</div>
 }
 
-function ResultSpinner({data, addLikeList, blockList, store}){
-  return (
-    <div>
-      {data.map(element =>
-      (<div>{data.id}</div>))}
-    </div>
-  )
+function ResultSpinner({list, sort, preSort, page, store}){
+  if (String(sort) === String(0)){
+    return <Popular list={list}  page={page}/>
+  }
+  else if (String(sort) === String(1)){
+    return <Title list={list}  page={page}/>
+  } else if (String(sort) === String(2)){
+    return <Rate list={list}  page={page}/>
+  } else if (String(sort) === String(3)){
+    return <Date list={list}  page={page}/>
+  }
 }
-//   const newData = data.filter(element => {
-//       const check = store.getState().find(item => item.id === element.id);
-//       if (check === undefined){
-//         return true;
-//       }
-//       return !check.isBlocked;
-//     }
-//   )
-//   console.log(newData);
-//   return (<div className="movie_container">
-//   {newData.map(element =>
-//       (<MovieListContainer element={element} addLikeList={addLikeList} blockList={blockList}/>))}
-//   </div>)
-// }
 
-// function MovieListContainer({element, addLikeList, blockList}){
-//   const stringPath = `https://image.tmdb.org/t/p/w500${element.poster_path}`
-//     return (
-//           <div className="movie_element">
-//             <div><img className="movie_element_pic" src={stringPath} alt=""/></div>
-//             <span>{element.original_title}</span>
-//             <div>
-//               <button onClick={addLikeList} id={element.id}>LIKE</button>
-//               <button onClick={blockList} id={element.id}>BLOCK</button>
-//             </div>
-//             <span>{element.release_date}</span>
-//             <span>
-//               {element.overview}
-//             </span>
-//           </div>
-//     )
-// }
 
