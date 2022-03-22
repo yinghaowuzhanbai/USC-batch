@@ -18,8 +18,8 @@ export default function Title({loading}) {
   // const [listB, setList] = useState([]);
 
   useEffect(() => {
-    let sliceStart = (page-1) * 5;
-    let sliceEnd = sliceStart + 5;
+    let sliceStart = (page-1) * 20;
+    let sliceEnd = sliceStart + 20;
     let newlist = listA.filter(element => {
       const item_store = store.getState().find(ele => ele.id === element.content.id);
       if (item_store === undefined){

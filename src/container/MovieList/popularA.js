@@ -9,7 +9,7 @@ const initialData = {
   page: 0,
   content: ''
 }
-export default function Date({loading}) {
+export default function PopularA({fetchA, loadingStatus, loading}) {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(true);
   const [page, setPage] = useState(1);
@@ -29,8 +29,7 @@ export default function Date({loading}) {
     });
     setListA(newlist);
     if (listA.length < sliceEnd){
-      fetch(`
-      https://api.themoviedb.org/3/discover/movie?api_key=f4fd559b706454d3e7876ad1c9d54257&language=en-US&sort_by=release_date.asc&page=1`)
+      fetch(`${fetchA}${fethPage}`)
       .then(res => res.json())
       .then(res => {
         res.results.map(element => {
@@ -39,10 +38,14 @@ export default function Date({loading}) {
             page:page,
             content:element
           }])
-          store.dispatch({
-            type:'ADD_LIST',
-            text: element
-          })
+          const item = store.getState().find(i => i.id === element.id)
+          if (!item){
+            store.dispatch({
+              type:'ADD_LIST',
+              text: element
+            })
+          }
+          loadingStatus();
       })
       setFetchPage(fethPage+1);
       setCount(false);
