@@ -31,3 +31,8 @@
     padding-left: 50px;
     padding-right: 50px;
 }
+.nav_button{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
