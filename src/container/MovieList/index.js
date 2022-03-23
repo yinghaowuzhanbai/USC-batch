@@ -97,6 +97,9 @@ function ResultSpinner({sort, page, pageRender}){
   function checkLoading(){
     setLoading(false);
   }
+  function hanldLoading(){
+    setLoading(true);
+  }
   //checkLoading
   function displayPage(){
     return `Page ${page}`;
@@ -131,35 +134,41 @@ function ResultSpinner({sort, page, pageRender}){
   return (
     <div>
       <div className="movie_layout">
+        {loading?
+        <div className="pageSwitch">
+          <button disabled>left</button>
+          <span>00/Page</span>
+          <button disabled>right</button>
+        </div>:
         <div className="pageSwitch">
           <button onClick={pageRender} id='0' disabled={loading? true:false}>left</button>
           <span>{displayPage()}</span>
           <button onClick={pageRender} id='1' disabled={loading? true:false}>right</button>
-        </div>
+        </div>}
     </div>
       <div style={{ display: showPopularA?"flex":"none"}}>
-        <PopularAsc page={page} checkLoading={checkLoading} loading={loading}/>
+        <PopularAsc page={page} checkLoading={checkLoading} hanldLoading={hanldLoading} loading={loading}/>
       </div>
       <div style={{ display: showTitleA?"flex":"none" }}>
-        <TitleAsc page={page} checkLoading={checkLoading} loading={loading}/>
+        <TitleAsc page={page} checkLoading={checkLoading} hanldLoading={hanldLoading} loading={loading}/>
       </div>
       <div style={{ display: showRateA?"flex":"none" }}>
-        <RevenueAsc page={page} checkLoading={checkLoading} loading={loading}/>
+        <RevenueAsc page={page} checkLoading={checkLoading} hanldLoading={hanldLoading} loading={loading}/>
       </div>
       <div style={{ display: showDateA ? "flex":"none" }}>
-        <DateAsc page={page} checkLoading={checkLoading} loading={loading}/>
+        <DateAsc page={page} checkLoading={checkLoading} hanldLoading={hanldLoading} loading={loading}/>
       </div>
       <div style={{ display: showPopularD?"flex":"none"}}>
-        <PopularDsc page={page} checkLoading={checkLoading} loading={loading}/>
+        <PopularDsc page={page} checkLoading={checkLoading} hanldLoading={hanldLoading} loading={loading}/>
       </div>
       <div style={{ display: showTitleD?"flex":"none" }}>
-        <TitleDsc page={page} checkLoading={checkLoading} loading={loading}/>
+        <TitleDsc page={page} checkLoading={checkLoading} hanldLoading={hanldLoading} loading={loading}/>
       </div>
       <div style={{ display: showRateD?"flex":"none" }}>
-        <RevenueDsc page={page} checkLoading={checkLoading} loading={loading}/>
+        <RevenueDsc page={page} checkLoading={checkLoading} hanldLoading={hanldLoading} loading={loading}/>
       </div>
       <div style={{ display: showDateD ? "flex":"none" }}>
-        <DateDsc page={page} checkLoading={checkLoading} loading={loading}/>
+        <DateDsc page={page} checkLoading={checkLoading} hanldLoading={hanldLoading} loading={loading}/>
       </div>
     </div>
 

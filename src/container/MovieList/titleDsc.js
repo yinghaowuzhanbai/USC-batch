@@ -5,15 +5,16 @@ import {useState, useEffect} from "react";
 import MovieListContainer from './display';
 
 
-export default function TitleDsc({page, checkLoading, loading}) {
+export default function TitleDsc({page, checkLoading,hanldLoading, loading}) {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(true);
   const [fethPage, setFetchPage] = useState(1);
   const [listA, setListA] = useState([]);
 
   useEffect(() => {
-    let sliceStart = (page-1) * 5;
-    let sliceEnd = sliceStart + 5;
+    hanldLoading();
+    let sliceStart = (page-1) * 20;
+    let sliceEnd = sliceStart + 20;
     let newlist = listA.filter(element => {
       const item_store = store.getState().find(ele => ele.id === element.content.id);
       if (item_store === undefined){
