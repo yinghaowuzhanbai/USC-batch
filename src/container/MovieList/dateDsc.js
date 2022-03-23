@@ -13,8 +13,8 @@ export default function DateDsc({page, checkLoading, hanldLoading, loading}) {
 
   useEffect(() => {
     hanldLoading();
-    let sliceStart = (page-1) * 20;
-    let sliceEnd = sliceStart + 20;
+    let sliceStart = (page-1) * 10;
+    let sliceEnd = sliceStart + 10;
     let newlist = listA.filter(element => {
       const item_store = store.getState().find(ele => ele.id === element.content.id);
       if (item_store === undefined){

@@ -36,3 +36,11 @@
     align-items: center;
     justify-content: center;
 }
+.null_img{
+    height: 500px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: darkgray;
+}

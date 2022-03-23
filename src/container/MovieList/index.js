@@ -49,6 +49,7 @@ export default function MovieList() {
         setDclickD(true);
         setSort('3');
       }
+      setPage(1);
     } else {
       setSort(e.target.id);
       setPage(1);
@@ -137,7 +138,7 @@ function ResultSpinner({sort, page, pageRender}){
         {loading?
         <div className="pageSwitch">
           <button disabled>left</button>
-          <span>00/Page</span>
+          <span>Page 00</span>
           <button disabled>right</button>
         </div>:
         <div className="pageSwitch">

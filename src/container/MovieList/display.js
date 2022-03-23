@@ -5,15 +5,18 @@ import { dispatch } from "redux";
 import store from "../../utils/actionCreator";
 
 
-const initialState = {
-  movie: 'error',
-  id: 'error',
-  isLiked: false,
-  isBlocked: false,
-};
+// const initialState = {
+//   movie: 'error',
+//   id: 'error',
+//   isLiked: false,
+//   isBlocked: false,
+// };
 
 export default function MovieListContainer({element, addLikeList, blockList}){
-    const stringPath = `https://image.tmdb.org/t/p/w500${element.content.poster_path}`
+    let stringPath;
+    if (element.content.poster_path!==null) {
+      stringPath = `https://image.tmdb.org/t/p/w500${element.content.poster_path}`
+    }
     const item_store = store.getState().find(ele => ele.id === element.content.id);
     let text;
     if (!item_store.isLiked){
@@ -23,7 +26,7 @@ export default function MovieListContainer({element, addLikeList, blockList}){
     }
     return (
             <div className="movie_element">
-              {/* <div><img className="movie_element_pic" src={stringPath} alt=""/></div> */}
+              {element.content.poster_path!==null? <div><img className="movie_element_pic" src={stringPath} alt=""/></div>:<div class="null_img"><div>{element.content.original_title}</div></div>}
               <span>{element.content.original_title}</span>
               <div>
                 <button onClick={addLikeList} id={element.content.id}>{text}</button>
