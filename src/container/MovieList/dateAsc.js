@@ -3,19 +3,13 @@ import './style.css'
 import store from '../../utils/actionCreator.js';
 import {useState, useEffect} from "react";
 import MovieListContainer from './display';
-import { isContentEditable } from "@testing-library/user-event/dist/utils";
 
-const initialData = {
-  page: 0,
-  content: ''
-}
-export default function Rate({loading}) {
+
+export default function DateAsc({page, checkLoading, loading}) {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(true);
-  const [page, setPage] = useState(1);
   const [fethPage, setFetchPage] = useState(1);
   const [listA, setListA] = useState([]);
-  // const [listB, setList] = useState([]);
 
   useEffect(() => {
     let sliceStart = (page-1) * 5;
@@ -29,8 +23,8 @@ export default function Rate({loading}) {
     });
     setListA(newlist);
     if (listA.length < sliceEnd){
-      fetch(`
-      https://api.themoviedb.org/3/discover/movie?api_key=f4fd559b706454d3e7876ad1c9d54257&language=en-US&sort_by=vote_average.asc&page=1`)
+      setCount(true);
+      fetch(`https://api.themoviedb.org/3/discover/movie?api_key=f4fd559b706454d3e7876ad1c9d54257&language=en-US&sort_by=release_date.asc&page=${fethPage}`)
       .then(res => res.json())
       .then(res => {
         res.results.map(element => {
@@ -39,19 +33,25 @@ export default function Rate({loading}) {
             page:page,
             content:element
           }])
-          store.dispatch({
-            type:'ADD_LIST',
-            text: element
-          })
+          const item = store.getState().find(i => i.id === element.id)
+          if (!item){
+            store.dispatch({
+              type:'ADD_LIST',
+              text: element
+            })
+          }
       })
       setFetchPage(fethPage+1);
       setCount(false);
-    })}
+      checkLoading();
+    }).catch(((error) => {
+      console.error('Error:', error);}))}
     else {
       setData(listA.slice(sliceStart,sliceEnd));
       setCount(false);
+      checkLoading();
     }
-    }, [page, count])
+    }, [count, page])
 
 function addLikeList(event){
     const add_item = store.getState().find(element => String(element.id) === String(event.target.id))
@@ -71,33 +71,14 @@ function blockList(event){
       ) 
     setCount(true);
   }
-  function displayPage(){
-    return `Page ${page}`;
-  }
 
-  function pageRender(e){
-    if (e.target.id === '1'){
-      setPage(page + 1);
-    } else{
-      if (page>1){
-        setPage(page-1);
-      }
-    }
-    setCount(true);
-  }
   return (
   <div>
-    <div className="movie_layout">
-      <div className="pageSwitch">
-        <button onClick={pageRender} id='0' disabled={loading? true:false}>left</button>
-        <span>{displayPage()}</span>
-        <button onClick={pageRender} id='1' disabled={loading? true:false}>right</button>
-      </div>
-    </div>
+    {loading? <div>loading</div> :
     <div className="movie_container">
         {data.map(element =>
           (<MovieListContainer element={element} addLikeList={addLikeList} blockList={blockList}/>))}
-    </div>
+    </div>}
   </div>
 )
 }
