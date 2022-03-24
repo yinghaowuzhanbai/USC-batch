@@ -7,7 +7,7 @@ import MovieListContainer from './display';
 
 export default function PopularDsc({page, checkLoading, hanldLoading, loading}) {
   const [data, setData] = useState([]);
-  const [count, setCount] = useState(true);
+  const [count, setCount] = useState(false);
   const [fethPage, setFetchPage] = useState(1);
   const [listA, setListA] = useState([]);
 
@@ -24,18 +24,18 @@ export default function PopularDsc({page, checkLoading, hanldLoading, loading}) 
     });
     setListA(newlist);
     if (listA.length < sliceEnd){
-      setCount(true);
       fetch(`https://api.themoviedb.org/3/discover/movie?api_key=f4fd559b706454d3e7876ad1c9d54257&language=en-US&sort_by=popularity.desc&page=${fethPage}`)
       .then(res => res.json())
       .then(res => {
         res.results.map(element => {
           setListA(pre => [...pre, 
           {
-            page:page,
+            page:fethPage,
             content:element
           }])
           const item = store.getState().find(i => i.id === element.id)
-          if (!item){
+          const item2 = listA.find(i => i.id === element.id)
+          if (!item&&!item2){
             store.dispatch({
               type:'ADD_LIST',
               text: element
@@ -43,16 +43,13 @@ export default function PopularDsc({page, checkLoading, hanldLoading, loading}) 
           }
       })
       setFetchPage(fethPage+1);
-      setCount(false);
-      checkLoading();
-    }).catch(((error) => {
-      console.error('Error:', error);}))}
+    })}
     else {
       setData(listA.slice(sliceStart,sliceEnd));
-      setCount(false);
       checkLoading();
+      setCount(false);
     }
-    }, [count, page])
+    }, [page,fethPage,count])
 
 function addLikeList(event){
     const add_item = store.getState().find(element => String(element.id) === String(event.target.id))
@@ -69,8 +66,8 @@ function blockList(event){
       {
         type:'IS_BLOCK',
         text: add_item}
-      ) 
-    setCount(true);
+      )
+      setCount(true);
   }
 
   return (

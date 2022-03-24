@@ -24,7 +24,6 @@ export default function TitleDsc({page, checkLoading,hanldLoading, loading}) {
     });
     setListA(newlist);
     if (listA.length < sliceEnd){
-      setCount(true);
       fetch(`https://api.themoviedb.org/3/discover/movie?api_key=f4fd559b706454d3e7876ad1c9d54257&language=en-US&sort_by=original_title.desc&page=${fethPage}`)
       .then(res => res.json())
       .then(res => {
@@ -43,8 +42,6 @@ export default function TitleDsc({page, checkLoading,hanldLoading, loading}) {
           }
       })
       setFetchPage(fethPage+1);
-      setCount(false);
-      checkLoading();
     }).catch(((error) => {
       console.error('Error:', error);}))}
     else {
@@ -52,7 +49,8 @@ export default function TitleDsc({page, checkLoading,hanldLoading, loading}) {
       setCount(false);
       checkLoading();
     }
-    }, [count, page])
+    }, [count, fethPage, page])
+
 
 function addLikeList(event){
     const add_item = store.getState().find(element => String(element.id) === String(event.target.id))

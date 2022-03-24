@@ -58,12 +58,13 @@ export default function MovieList() {
   function pageRender(e){
     if (e.target.id === '1'){
       setPage(page + 1);
-    } else{
-      if (page>1){
-        setPage(page-1);
+    } else {
+      if (page > 1) {
+        setPage(page - 1);
       }
     }
   }
+
   return (
     <div className="movie_layout">
       <nav className="listView">
@@ -88,6 +89,7 @@ export default function MovieList() {
     </div>
   );
 }
+
 function LoadingSpinner(){
   return <div>loading</div>
 }
@@ -175,5 +177,5 @@ function ResultSpinner({sort, page, pageRender}){
 
   )
 }
-
+console.log(store.getState());
 
