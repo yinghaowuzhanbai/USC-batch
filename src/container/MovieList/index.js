@@ -77,7 +77,7 @@ export default function MovieList() {
           :<button className="nav_button" id='5' onClick={swtichSort}>Title &darr;</button>}
         </div>
         <div style={{ border:sort === '2'||sort === '6' ? '2px solid gray': '0'}}>
-          {dChickR?<button className="nav_button" id='2' onClick={swtichSort}>Rate &uarr;</button>
+          {dChickR?<button className="nav_button" id='2' onClick={swtichSort}>Revenue &uarr;</button>
           :<button className="nav_button" id='6' onClick={swtichSort}>Rate  &darr;</button>}
         </div>
         <div style={{ border:sort === '3'||sort === '7' ? '2px solid gray': '0'}}>
