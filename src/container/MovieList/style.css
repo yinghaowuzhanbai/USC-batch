@@ -11,11 +11,14 @@
     display:flex;
     flex-direction: column;
     width:100%;
+    height: 100%;
     justify-content: baseline;
 }
 .movie_container{
     display: grid;
+    display: -ms-grid;
     grid-template-columns: repeat(3, 1fr);
+    -ms-grid-columns:repeat(3, 1fr);
     gap: 10px;
 }
 .movie_element_pic{
@@ -30,4 +33,17 @@
     font-size: 1.5em;
     padding-left: 50px;
     padding-right: 50px;
+}
+.nav_button{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+.null_img{
+    height: 500px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: darkgray;
 }
