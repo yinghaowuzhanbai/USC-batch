@@ -34,11 +34,7 @@ export default function BlockList({ movie, isBlocked }) {
 
   return (
     isShow && (
-      <div
-        className="blocked-movie"
-        id={movie.id}
-        onClick={(e) => buttonsHandler(e)}
-      >
+      <>
         {showDetail && (
           <Detail
             movie={movie}
@@ -46,7 +42,11 @@ export default function BlockList({ movie, isBlocked }) {
             setShowDetail={setShowDetail}
           />
         )}
-        <div className="image-wrapper" id={movie.id}>
+        <div
+          className="image-wrapper"
+          id={movie.id}
+          onClick={(e) => buttonsHandler(e)}
+        >
           {movie.poster_path ? (
             <img
               src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
@@ -61,7 +61,7 @@ export default function BlockList({ movie, isBlocked }) {
             <button name="detail">Detail</button>
           </div>
         </div>
-      </div>
+      </>
     )
   );
 }

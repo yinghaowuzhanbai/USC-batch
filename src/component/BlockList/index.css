@@ -6,18 +6,16 @@
   display: flex;
 }
 
-.blocked-movie {
-  position: relative;
-  overflow: hidden;
-}
-
 .image-wrapper {
   width: 300px;
   height: 500px;
   position: relative;
+  overflow: hidden;
 }
 
 .image-wrapper img {
+  width: 300px;
+  height: 500px;
   transition: 0.5s ease-in-out;
 }
 
@@ -36,15 +34,10 @@
 }
 
 .image-wrapper:hover .buttons {
+  transition: 1.5s;
   z-index: 1;
 }
 
 .null_img {
-  height: 500px;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: darkgray;
   transition: 0.5s ease-in-out;
 }
