@@ -12,6 +12,8 @@
 }
 
 .image-wrapper {
+  width: 300px;
+  height: 500px;
   position: relative;
 }
 
@@ -29,6 +31,20 @@
   transform: translate(0, -8%);
 }
 
+.image-wrapper:hover .null_img {
+  transform: translate(0, -8%);
+}
+
 .image-wrapper:hover .buttons {
   z-index: 1;
+}
+
+.null_img {
+  height: 500px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: darkgray;
+  transition: 0.5s ease-in-out;
 }

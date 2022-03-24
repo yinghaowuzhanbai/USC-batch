@@ -47,10 +47,14 @@ export default function BlockList({ movie, isBlocked }) {
           />
         )}
         <div className="image-wrapper" id={movie.id}>
-          <img
-            src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-            alt={movie.original_title}
-          />
+          {movie.poster_path ? (
+            <img
+              src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+              alt={movie.original_title}
+            />
+          ) : (
+            <div className="null_img">{movie.original_title}</div>
+          )}
           <div className="buttons" id={movie.id}>
             <button name="unblock">Delete</button>
             <button name="like">Like</button>
