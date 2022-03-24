@@ -5,10 +5,13 @@ import store from "../../utils/actionCreator";
 export default function LikedList() {
   const movies = store.getState();
   return (
-    <div className="blocked-grid">
-      {movies.map(({ movie, isLiked }) => {
-        return isLiked && <LikeList movie={movie} />;
-      })}
-    </div>
+    <>
+      <h1>Movie List of Blocked</h1>
+      <div className="liked-grid">
+        {movies.map(({ movie, isLiked }) => {
+          return <LikeList movie={movie} isLiked={isLiked} />;
+        })}
+      </div>
+    </>
   );
 }
